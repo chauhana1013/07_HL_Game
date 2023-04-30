@@ -17,4 +17,14 @@ show_instructions = yes_no("Would you like to see the Instructions? ")
 if show_instructions == "yes":
     print("⬆⬆⬆ Instructions ⬇⬇⬇")
     print()
-    print("First ")
+    print("Choose your Minimum and Maximum numbers as the range for the secret number")
+    print("Then choose how many rounds you want to play")
+    print()
+    print("The computer will automatically generate how guesses you get for each round, "
+          "depending on the Lowest and Highest number")
+    print()
+    print("The aim of the game is to guess the secret number and if you guess higher or lower than the secret number, "
+          "the computer will tell you")
+
+elif show_instructions == "no":
+    print("Program Continues")
