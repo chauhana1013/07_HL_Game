@@ -21,19 +21,16 @@ def rounds_checker():
         return response
 
 
-low_num = 1
-high_num = 10
 rounds_played = 0
-guess_instructions = f"Guess a number between {low_num} and {high_num}"
-
+# Ask user for # of rounds, press <ENTER> for Infinite Mode
 rounds = rounds_checker()
 
 game_over = "no"
 while game_over == "no":
 
     print()
+    # Rounds Heading
     if rounds == "":
-        print()
         heading = f"Infinite Mode: Round {rounds_played + 1}"
     else:
         heading = f"Round {rounds_played + 1} of {rounds}"
@@ -42,12 +39,12 @@ while game_over == "no":
 
     print(heading)
     guess = input("Guess: ")
-
     if guess == "xxx":
         break
 
+    # Rest of game
     print(f"You chose {guess}")
 
     rounds_played += 1
-
+# Thanks the player for playing after rounds finish
 print("Thanks for playing")
