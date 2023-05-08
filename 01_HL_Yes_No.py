@@ -1,5 +1,5 @@
 # Yes / No Checker
-# Looping so I can test multiple tiems on a single run
+# Looping, so I can test multiple items on a single run
 show_instructions = ""
 while show_instructions != "xxx":
     # Ask user if they would like to see the Instructions

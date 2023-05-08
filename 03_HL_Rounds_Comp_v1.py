@@ -1,4 +1,4 @@
-# Rounds Component
+# Rounds Component Version 1 - The code works perfectly, but it can't fully be integrated into the base component
 
 # Round checker checks
 def rounds_checker():

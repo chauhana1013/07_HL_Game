@@ -17,35 +17,39 @@ def yes_no(question):
 
 
 # Checks the user's input and ensures that the response is an integer
-def int_check(question, low=None, high=None):
-
-    situation = ""
-
-    # If the user has entered a low number and a high number['
-    if low is not None and high is not None:
+def int_check(question, low=None, high=None, exit_code=None):
+    if low is None and high is None:
+        error = "Please enter an integer"
+        situation = "any integer"
+    # If the user has entered a low number and a high number
+    elif low is not None and high is not None:
+        error = f"Please enter a number between {low} and {high}"
         situation = "both"
-
-    elif low is not None and high is None:
+    else:
+        error = f"Please enter a number that is more than {low}"
         situation = "low only"
 
     while True:
-
+        response = input(question).lower()
+        if response == exit_code:
+            return response
         try:
-            response = int(input(question))
+            response = int(response)
 
-            # checks input is not too high or
-            # too low if a both upper and lower bounds are specified
-            if situation == "both":
-                if response < low or response > high:
-                    print(f"Please enter a number between {low} and {high}")
-                    continue
+            # check that integer is valid (ie: not too low / too high etc.)
+            if situation == "any integer":
+                return response
+
+            elif situation == "both":
+                if low <= response <= high:
+                    return response
+
             # checks input is not too low
             elif situation == "low only":
-                if response < low:
-                    print(f"Please enter a number that is more than (or equal to) {low}")
-                    continue
+                if response <= low:
+                    return response
 
-            return response
+            print(error)
 
         # Checks input is an integer
         except ValueError:
@@ -72,8 +76,53 @@ if show_instructions == "yes":
     print("The aim of the game is to guess the secret number and if you guess higher or lower than the secret number, "
           "the computer will tell you")
 
+rounds_played = 0
+rounds_won = 0
+
+lowest_number = 1
+highest_number = 10
+
+mode = "regular"
+
 print()
 lowest = int_check("Low Number: ")
 highest = int_check("High Number: ")
-rounds = int_check("Rounds: ", 1)
-guess = int_check("Guess ", lowest, highest)
+rounds = int_check("Rounds: ", 1, exit_code="")
+
+if rounds == "":
+    mode = "infinite"
+    rounds = 5
+
+# Rounds loop
+end_game = "no"
+while end_game == "no":
+    if mode == "infinite":
+        heading = f"|♾♾♾ Infinite Mode ♾♾♾|Round {rounds_played + 1}"
+        rounds += 1
+    else:
+        heading = f"Round {rounds_played + 1} of {rounds}"
+
+    print(heading)
+
+    rounds_played += 1
+
+    # Start Game
+    while True:
+        secret_num = 7
+
+        guess = int_check("Guess (type 'xxx' to quit): ", lowest_number, highest_number, "xxx")
+
+        if guess == "xxx":
+            end_game = "yes"
+            break
+
+        print("Pretend we've compared the number")
+
+        if guess == secret_num:
+            rounds_won += 1
+            break
+
+    if rounds_played >= rounds:
+        break
+
+print("Thanks for playing")
