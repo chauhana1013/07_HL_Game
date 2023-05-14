@@ -1,4 +1,8 @@
+import random
+
+
 # Functions go here...
+
 
 # Checks user input for the question and
 # if user inputs anything apart from 'yes' or 'no', displays error message
@@ -26,7 +30,7 @@ def int_check(question, low=None, high=None, exit_code=None):
         error = f"Please enter a number between {low} and {high}"
         situation = "both"
     else:
-        error = f"Please enter a number that is more than {low}"
+        error = f"Please enter a number that is more than or equal to {low}"
         situation = "low only"
 
     while True:
@@ -46,7 +50,7 @@ def int_check(question, low=None, high=None, exit_code=None):
 
             # checks input is not too low
             elif situation == "low only":
-                if response <= low:
+                if response >= low:
                     return response
 
             print(error)
@@ -79,27 +83,34 @@ if show_instructions == "yes":
 rounds_played = 0
 rounds_won = 0
 
-lowest_number = 1
-highest_number = 10
-
 mode = "regular"
 
 print()
-lowest = int_check("Low Number: ")
+lowest = int_check("Low Number: ", 1)
+
 highest = int_check("High Number: ")
+
 rounds = int_check("Rounds: ", 1, exit_code="")
-
-if rounds == "":
-    mode = "infinite"
-    rounds = 5
-
 # Rounds loop
 end_game = "no"
 while end_game == "no":
+
+    if lowest >= highest:
+
+        print(f"The High Number has to be more than the {lowest}")
+        continue
+
+    secret_num = random.randint(lowest, highest)
+
+    if rounds == "":
+        mode = "infinite"
+        rounds = 5
+
     if mode == "infinite":
         heading = f"|♾♾♾ Infinite Mode ♾♾♾|Round {rounds_played + 1}"
         rounds += 1
-    else:
+
+    elif mode == "regular":
         heading = f"Round {rounds_played + 1} of {rounds}"
 
     print(heading)
@@ -108,9 +119,8 @@ while end_game == "no":
 
     # Start Game
     while True:
-        secret_num = 7
 
-        guess = int_check("Guess (type 'xxx' to quit): ", lowest_number, highest_number, "xxx")
+        guess = int_check("Guess (type 'xxx' to quit): ", lowest, highest, "xxx")
 
         if guess == "xxx":
             end_game = "yes"
@@ -124,5 +134,6 @@ while end_game == "no":
 
     if rounds_played >= rounds:
         break
+
 
 print("Thanks for playing")
