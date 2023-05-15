@@ -108,6 +108,7 @@ while end_game == "no":
     elif mode == "regular":
         heading = f"Round {rounds_played + 1} of {rounds}"
 
+    print()
     print(heading)
 
     rounds_played += 1
@@ -121,12 +122,17 @@ while end_game == "no":
             end_game = "yes"
             break
 
-        print("Pretend we've compared the number")
+        elif guess < secret_num:
+            print("⬇⬇⬇ Too Low ⬇⬇⬇")
+
+        elif guess > secret_num:
+            print("⬆⬆⬆ Too High ⬆⬆⬆")
 
         if guess == secret_num:
+            print("🥳🥳🥳~|Yay, you guessed the Secret Number|~🥳🥳🥳")
             rounds_won += 1
             break
-
+        print()
     if rounds_played >= rounds:
         break
 
