@@ -30,7 +30,7 @@ def int_check(question, low=None, high=None, exit_code=None):
         error = f"Please enter a number between {low} and {high}"
         situation = "both"
     else:
-        error = f"Please enter a number that is more than or equal to {low}"
+        error = f"Please enter a number that is more than {low}"
         situation = "low only"
 
     while True:
@@ -50,7 +50,7 @@ def int_check(question, low=None, high=None, exit_code=None):
 
             # checks input is not too low
             elif situation == "low only":
-                if response >= low:
+                if response > low:
                     return response
 
             print(error)
@@ -86,19 +86,14 @@ rounds_won = 0
 mode = "regular"
 
 print()
-lowest = int_check("Low Number: ", 1)
+lowest = int_check("Low Number: ", 0)
 
-highest = int_check("High Number: ")
+highest = int_check("High Number: ", lowest)
 
-rounds = int_check("Rounds: ", 1, exit_code="")
+rounds = int_check("Rounds: ", 0, exit_code="")
 # Rounds loop
 end_game = "no"
 while end_game == "no":
-
-    if lowest >= highest:
-
-        print(f"The High Number has to be more than the {lowest}")
-        continue
 
     secret_num = random.randint(lowest, highest)
 

@@ -10,7 +10,7 @@ def int_check(question, low=None, high=None, exit_code=None):
         error = f"Please enter a number between {low} and {high}"
         situation = "both"
     else:
-        error = f"Please enter a number that is more than or equal to {low}"
+        error = f"Please enter a number that is more than {low}"
         situation = "low only"
 
     while True:
@@ -30,7 +30,7 @@ def int_check(question, low=None, high=None, exit_code=None):
 
             # checks input is not too low
             elif situation == "low only":
-                if response >= low:
+                if response > low:
                     return response
 
             print(error)
@@ -39,7 +39,6 @@ def int_check(question, low=None, high=None, exit_code=None):
         except ValueError:
             print("Please enter an integer")
             continue
-
 
 # Main Routine goes here...
 end_game = "no"
