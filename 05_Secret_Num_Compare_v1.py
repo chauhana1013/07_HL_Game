@@ -8,5 +8,7 @@ if guess < secret_num:
 elif guess > secret_num:
     print("Too High")
 
-elif guess == secret_num:
+else:
+    guess = secret_num
     print("Yay, you guessed the Secret Number!!")
+

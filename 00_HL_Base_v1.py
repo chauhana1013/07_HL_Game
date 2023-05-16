@@ -1,5 +1,5 @@
 import random
-
+import math
 
 # Functions go here...
 
@@ -82,6 +82,7 @@ if show_instructions == "yes":
 
 rounds_played = 0
 rounds_won = 0
+rounds_lost = 0
 
 mode = "regular"
 
@@ -91,11 +92,19 @@ lowest = int_check("Low Number: ", 0)
 highest = int_check("High Number: ", lowest)
 
 rounds = int_check("Rounds: ", 0, exit_code="")
+
+
 # Rounds loop
 end_game = "no"
 while end_game == "no":
 
+    print()
+    var_range = highest - lowest + 1
+    max_raw = math.log2(var_range)
+    max_upped = math.ceil(max_raw)
+    max_guesses = max_upped + 1
     secret_num = random.randint(lowest, highest)
+    print(f"Max Guesses: {max_guesses}")
 
     if rounds == "":
         mode = "infinite"
@@ -123,15 +132,22 @@ while end_game == "no":
             break
 
         elif guess < secret_num:
-            print("⬇⬇⬇ Too Low ⬇⬇⬇")
+            max_guesses -= 1
+            print(f"⬇⬇⬇ Too Low ⬇⬇⬇ | Guesses Left: {max_guesses}")
 
         elif guess > secret_num:
-            print("⬆⬆⬆ Too High ⬆⬆⬆")
+            max_guesses -= 1
+            print(f"⬆⬆⬆ Too High ⬆⬆⬆ | Guesses Left: {max_guesses}")
 
         if guess == secret_num:
             print("🥳🥳🥳~|Yay, you guessed the Secret Number|~🥳🥳🥳")
             rounds_won += 1
             break
+        if max_guesses == 0:
+            print("😢😢😢~|Unlucky, you lost the round|~😢😢😢")
+            rounds_lost += 1
+            break
+
         print()
     if rounds_played >= rounds:
         break

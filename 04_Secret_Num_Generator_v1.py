@@ -42,7 +42,7 @@ def int_check(question, low=None, high=None, exit_code=None):
 
 
 # Main Routine goes here...
-end_game = "no"
+
 while True:
 
     lowest = int_check("Low Number: ", 1)
