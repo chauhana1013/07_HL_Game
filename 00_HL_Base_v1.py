@@ -155,12 +155,12 @@ while end_game == "no":
         # If guess is less than the secret number, outputs the guess was too low
         # and shows total number of guesses left
         elif guess < secret_num:
-            print(f"⬇⬇⬇ Too Low ⬇⬇⬇ | Guesses Left: {max_guesses}")
+            print(f"⬇⬇⬇ Too Low ⬇⬇⬇ | Guesses Left: {guesses_allowed}")
 
         # If guess is more than the secret number, outputs the guess was too high
         # and shows total number of guesses left
         elif guess > secret_num:
-            print(f"⬆⬆⬆ Too High ⬆⬆⬆ | Guesses Left: {max_guesses}")
+            print(f"⬆⬆⬆ Too High ⬆⬆⬆ | Guesses Left: {guesses_allowed}")
 
         # If user guesses the secret number, they win the round
         if guess == secret_num:
@@ -177,10 +177,32 @@ while end_game == "no":
             rounds_lost += 1
             break
 
+        guesses_taken = max_guesses - guesses_allowed
+        all_scores.append(guesses_taken)
         print()
 
     # Game Over if all rounds played
     if rounds_played >= rounds:
         break
+# End Game Score Calculations
+all_scores.sort()
+best_round = all_scores[0]
+worst_round = all_scores[-1]
+average = sum(all_scores) / len(all_scores)
 
+win_rate = rounds_won / rounds_played * 100
+loss_rate = rounds_lost / rounds_played * 100
+
+print()
+if rounds_played > 0:
+    print("📈📈📈 | End Game Stats and Score | 💯💯💯")
+    print()
+    print(f"Best Round: Took {best_round} tries")
+    print()
+    print(f"Worst Round: Took {worst_round} tries")
+    print()
+    print(f"Average Round: Took {average} tries")
+    print()
+    print(f"| Win Percentage: {win_rate}% | Loss Percentage: {loss_rate}% |")
+print()
 print("Thanks for playing")
