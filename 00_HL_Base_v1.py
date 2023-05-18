@@ -21,11 +21,12 @@ def yes_no(question):
 
 
 # Checks the user's input and ensures that the response is an integer
+# Shows different error messages depending on what type of parameter is involved
 def int_check(question, low=None, high=None, exit_code=None):
     if low is None and high is None:
         error = "Please enter an integer"
         situation = "any integer"
-    # If the user has entered a low number and a high number
+
     elif low is not None and high is not None:
         error = f"Please enter a number between {low} and {high}"
         situation = "both"
@@ -84,31 +85,39 @@ rounds_played = 0
 rounds_won = 0
 rounds_lost = 0
 
+all_scores = []
+
 mode = "regular"
 
 print()
 lowest = int_check("Low Number: ", 0)
-
 highest = int_check("High Number: ", lowest)
+
+# Generates the total number of guesses the user gets per round
+# depending on the range between the highest number and the lowest number
+print()
+var_range = highest - lowest + 1
+max_raw = math.log2(var_range)
+max_upped = math.ceil(max_raw)
+max_guesses = max_upped + 1
 
 rounds = int_check("Rounds: ", 0, exit_code="")
 
+# If user presses <ENTER>, Infinite Mode is selected
+if rounds == "":
+    mode = "infinite"
+    rounds = 5
 
 # Rounds loop
 end_game = "no"
 while end_game == "no":
 
-    print()
-    var_range = highest - lowest + 1
-    max_raw = math.log2(var_range)
-    max_upped = math.ceil(max_raw)
-    max_guesses = max_upped + 1
-    secret_num = random.randint(lowest, highest)
-    print(f"Max Guesses: {max_guesses}")
+    already_guessed = []
 
-    if rounds == "":
-        mode = "infinite"
-        rounds = 5
+    guesses_allowed = max_guesses
+
+    secret_num = random.randint(lowest, highest)
+    print(f"Spoiler alert : {secret_num}")
 
     if mode == "infinite":
         heading = f"|♾♾♾ Infinite Mode ♾♾♾|Round {rounds_played + 1}"
@@ -125,32 +134,53 @@ while end_game == "no":
     # Start Game
     while True:
 
+        # Asks the user to guess
         guess = int_check("Guess (type 'xxx' to quit): ", lowest, highest, "xxx")
 
+        # If user's current guess has already been guessed before, displays error message
+        # and user has the same number of guesses
+        if guess in already_guessed:
+            print(f"You've already guessed {guess}! You still have {guesses_allowed} guesses left.")
+            continue
+
+        # If user's guess has not been guessed before, it is added to the already_guessed list
+        guesses_allowed -= 1
+        already_guessed.append(guess)
+
+        # Game over if user inputs exit code
         if guess == "xxx":
             end_game = "yes"
             break
 
+        # If guess is less than the secret number, outputs the guess was too low
+        # and shows total number of guesses left
         elif guess < secret_num:
-            max_guesses -= 1
             print(f"⬇⬇⬇ Too Low ⬇⬇⬇ | Guesses Left: {max_guesses}")
 
+        # If guess is more than the secret number, outputs the guess was too high
+        # and shows total number of guesses left
         elif guess > secret_num:
-            max_guesses -= 1
             print(f"⬆⬆⬆ Too High ⬆⬆⬆ | Guesses Left: {max_guesses}")
 
+        # If user guesses the secret number, they win the round
         if guess == secret_num:
             print("🥳🥳🥳~|Yay, you guessed the Secret Number|~🥳🥳🥳")
             rounds_won += 1
             break
-        if max_guesses == 0:
+
+        # If the user runs out of guesses, they lose the round and the Secret Number is revealed
+        if guesses_allowed == 0:
+            print()
             print("😢😢😢~|Unlucky, you lost the round|~😢😢😢")
+            print()
+            print(f"|The Secret Number was {secret_num}|")
             rounds_lost += 1
             break
 
         print()
+
+    # Game Over if all rounds played
     if rounds_played >= rounds:
         break
-
 
 print("Thanks for playing")
