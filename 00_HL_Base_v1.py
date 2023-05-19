@@ -117,7 +117,6 @@ while end_game == "no":
     guesses_allowed = max_guesses
 
     secret_num = random.randint(lowest, highest)
-    print(f"Spoiler alert : {secret_num}")
 
     if mode == "infinite":
         heading = f"|♾♾♾ Infinite Mode ♾♾♾|Round {rounds_played + 1}"
@@ -185,16 +184,17 @@ while end_game == "no":
     if rounds_played >= rounds:
         break
 # End Game Score Calculations
-all_scores.sort()
-best_round = all_scores[0]
-worst_round = all_scores[-1]
-average = sum(all_scores) / len(all_scores)
-
-win_rate = rounds_won / rounds_played * 100
-loss_rate = rounds_lost / rounds_played * 100
 
 print()
-if rounds_played > 0:
+if rounds_played > 1:
+    all_scores.sort()
+    best_round = all_scores[0]
+    worst_round = all_scores[-1]
+    average = sum(all_scores) / len(all_scores)
+
+    win_rate = rounds_won / rounds_played * 100
+    loss_rate = rounds_lost / rounds_played * 100
+
     print("📈📈📈 | End Game Stats and Score | 💯💯💯")
     print()
     print(f"Best Round: Took {best_round} tries")
@@ -204,5 +204,9 @@ if rounds_played > 0:
     print(f"Average Round: Took {average} tries")
     print()
     print(f"| Win Percentage: {win_rate}% | Loss Percentage: {loss_rate}% |")
-print()
-print("Thanks for playing")
+    print()
+    print("Thanks for playing")
+else:
+    print("🐔🐔🐔 | You chickened out | 🐔🐔🐔")
+
+
